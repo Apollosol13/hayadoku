@@ -36,7 +36,7 @@ if (loginFormElement) {
         
         showMessage(loginMessage, 'Logging in...', 'info');
         
-        const { data, error } = await supabase.auth.signInWithPassword({
+        const { data, error } = await window.supabaseClient.auth.signInWithPassword({
             email: email,
             password: password,
         });
@@ -73,7 +73,7 @@ if (signupFormElement) {
         
         showMessage(signupMessage, 'Creating account...', 'info');
         
-        const { data, error } = await supabase.auth.signUp({
+        const { data, error } = await window.supabaseClient.auth.signUp({
             email: email,
             password: password,
         });

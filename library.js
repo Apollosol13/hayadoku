@@ -18,7 +18,7 @@ async function checkAuth() {
 async function loadBooks() {
     const booksContainer = document.getElementById('booksContainer');
     
-    const { data: books, error } = await supabase
+    const { data: books, error } = await window.supabaseClient
         .from('books')
         .select('*')
         .eq('user_id', currentUser.id)
@@ -79,7 +79,7 @@ document.getElementById('uploadBookBtn')?.addEventListener('click', async () => 
         const words = content.trim().split(/\s+/).filter(w => w.length > 0);
         
         // Save to database
-        const { data, error } = await supabase
+        const { data, error } = await window.supabaseClient
             .from('books')
             .insert([
                 {
@@ -129,7 +129,7 @@ async function startReading(bookId) {
 async function deleteBook(bookId) {
     if (!confirm('Are you sure you want to delete this book?')) return;
     
-    const { error } = await supabase
+    const { error } = await window.supabaseClient
         .from('books')
         .delete()
         .eq('id', bookId)
