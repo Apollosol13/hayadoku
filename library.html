@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Library - Hayadoku ハヤドク</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header>
+            <div class="logo-container">
+                <h1 class="main-title">
+                    <a href="index.html" style="text-decoration: none; color: inherit;">
+                        <span class="japanese-title">ハヤドク</span>
+                        <span class="english-title">HAYADOKU</span>
+                    </a>
+                </h1>
+                <p class="tagline">◆ My Digital Library ◆</p>
+            </div>
+        </header>
+
+        <!-- User Info Bar -->
+        <div class="user-bar section">
+            <div class="user-info">
+                <span id="userEmail">Loading...</span>
+            </div>
+            <div class="user-actions">
+                <a href="reader.html" class="btn btn-secondary">📖 New Reading Session</a>
+                <button id="signOutBtn" class="btn btn-secondary">Logout</button>
+            </div>
+        </div>
+
+        <!-- Library Section -->
+        <div class="section library-section">
+            <h2>📚 My Books</h2>
+            <div id="booksContainer" class="books-grid">
+                <div class="loading-message">Loading your library...</div>
+            </div>
+        </div>
+
+        <!-- Upload New Book -->
+        <div class="section upload-section">
+            <h3>➕ Add New Book</h3>
+            <div class="upload-form">
+                <input type="text" id="bookTitle" placeholder="Book Title" class="form-input">
+                <input type="file" id="bookFile" accept=".txt,.pdf" style="display: none;">
+                <button onclick="document.getElementById('bookFile').click()" class="btn btn-secondary">
+                    Choose File
+                </button>
+                <button id="uploadBookBtn" class="btn btn-primary">Upload Book</button>
+            </div>
+            <p id="uploadStatus" class="upload-status"></p>
+        </div>
+    </div>
+
+    <script src="supabase-config.js"></script>
+    <script src="library.js"></script>
+</body>
+</html>
