@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Art of Speed Reading</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- PDF.js Library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header>
+            <h1 class="main-title">The <span class="art-word">Art</span> of Speed Reading</h1>
+            <p class="tagline">Train your brain to read faster</p>
+        </header>
+
+        <!-- Upload Section -->
+        <div id="uploadSection" class="section">
+            <div class="upload-area" id="uploadArea">
+                <svg class="upload-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                    <polyline points="17 8 12 3 7 8"></polyline>
+                    <line x1="12" y1="3" x2="12" y2="15"></line>
+                </svg>
+                <h2>Upload Your Book</h2>
+                <p>Drop a text or PDF file here or click to browse</p>
+                <input type="file" id="fileInput" accept=".txt,.pdf" hidden>
+                <button class="btn btn-primary" onclick="document.getElementById('fileInput').click()">
+                    Choose File
+                </button>
+            </div>
+
+            <div class="paste-area">
+                <h3>Or paste your text here:</h3>
+                <textarea id="pasteText" placeholder="Paste your text here and click 'Start Reading'..."></textarea>
+                <button class="btn btn-secondary" id="startFromPaste">Start Reading</button>
+            </div>
+        </div>
+
+        <!-- Reader Section -->
+        <div id="readerSection" class="section hidden">
+            <!-- Controls -->
+            <div class="controls">
+                <div class="control-group">
+                    <label for="wpmSlider">
+                        Speed: <span id="wpmValue">250</span> WPM
+                    </label>
+                    <input type="range" id="wpmSlider" min="50" max="900" value="250" step="10">
+                    <div class="speed-markers">
+                        <span>50</span>
+                        <span>200</span>
+                        <span>450</span>
+                        <span>700</span>
+                        <span>900</span>
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <label for="focusPosition">
+                        Focal Point Position
+                    </label>
+                    <select id="focusPosition">
+                        <option value="auto">Auto (Optimal)</option>
+                        <option value="0">First Letter</option>
+                        <option value="1">Second Letter</option>
+                        <option value="2">Third Letter</option>
+                        <option value="middle">Middle</option>
+                    </select>
+                </div>
+
+                <div class="control-group">
+                    <label for="focusColor">
+                        Focal Color
+                    </label>
+                    <input type="color" id="focusColor" value="#ff0000">
+                </div>
+
+                <div class="control-group">
+                    <label for="fontSize">
+                        Font Size: <span id="fontSizeValue">48</span>px
+                    </label>
+                    <input type="range" id="fontSize" min="24" max="96" value="48" step="4">
+                </div>
+            </div>
+
+            <!-- Display Area -->
+            <div class="reader-display">
+                <div class="word-container">
+                    <div id="currentWord" class="current-word"></div>
+                </div>
+                <div class="progress-bar">
+                    <div id="progressFill" class="progress-fill"></div>
+                </div>
+                <div class="stats">
+                    <span id="wordCount">0 / 0</span>
+                    <span id="timeRemaining">0:00</span>
+                </div>
+            </div>
+
+            <!-- Playback Controls -->
+            <div class="playback-controls">
+                <button class="btn-icon" id="rewindBtn" title="Rewind 10 words">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polygon points="11 19 2 12 11 5 11 19"></polygon>
+                        <polygon points="22 19 13 12 22 5 22 19"></polygon>
+                    </svg>
+                </button>
+                <button class="btn-icon btn-play" id="playPauseBtn" title="Play/Pause">
+                    <svg id="playIcon" viewBox="0 0 24 24" fill="currentColor">
+                        <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                    </svg>
+                    <svg id="pauseIcon" class="hidden" viewBox="0 0 24 24" fill="currentColor">
+                        <rect x="6" y="4" width="4" height="16"></rect>
+                        <rect x="14" y="4" width="4" height="16"></rect>
+                    </svg>
+                </button>
+                <button class="btn-icon" id="forwardBtn" title="Forward 10 words">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polygon points="13 19 22 12 13 5 13 19"></polygon>
+                        <polygon points="2 19 11 12 2 5 2 19"></polygon>
+                    </svg>
+                </button>
+                <button class="btn-icon" id="restartBtn" title="Restart">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="1 4 1 10 7 10"></polyline>
+                        <path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"></path>
+                    </svg>
+                </button>
+                <button class="btn btn-secondary" id="newTextBtn">Upload New Text</button>
+            </div>
+        </div>
+
+        <!-- Email Signup Section -->
+        <div id="emailSignup" class="section email-signup-section">
+            <div class="email-signup-content">
+                <h2>📚 Get Speed Reading Tips</h2>
+                <p>Join our community and receive tips, techniques, and exclusive content to master the art of speed reading.</p>
+                
+                <form id="emailForm" class="email-form">
+                    <input 
+                        type="email" 
+                        id="emailInput" 
+                        placeholder="Enter your email address" 
+                        required
+                        class="email-input"
+                    >
+                    <button type="submit" class="btn btn-primary email-submit">
+                        Subscribe
+                    </button>
+                </form>
+                
+                <p class="email-privacy">We respect your privacy. Unsubscribe anytime.</p>
+                <div id="emailMessage" class="email-message"></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
