@@ -1,5 +1,6 @@
 // Library page functionality
 let currentUser = null;
+let selectedFile = null; // Store the selected/dropped file
 
 // Drag and drop functionality
 const dropZone = document.getElementById('dropZone');
@@ -44,6 +45,9 @@ if (bookFileInput) {
 }
 
 function handleFileSelect(file) {
+    // Store the file globally
+    selectedFile = file;
+    
     // Show selected file
     selectedFileName.textContent = `Selected: ${file.name}`;
     selectedFileName.style.display = 'block';
@@ -107,9 +111,10 @@ async function loadBooks() {
 
 // Upload new book
 document.getElementById('uploadBookBtn')?.addEventListener('click', async () => {
-    const fileInput = document.getElementById('bookFile');
-    const file = fileInput.files[0];
     const statusEl = document.getElementById('uploadStatus');
+    
+    // Get file from either dropped file or file input
+    const file = selectedFile || document.getElementById('bookFile').files[0];
     
     if (!file) {
         statusEl.textContent = 'Please select a file';
@@ -151,7 +156,10 @@ document.getElementById('uploadBookBtn')?.addEventListener('click', async () => 
         
         // Clear form
         document.getElementById('bookTitle').value = '';
-        fileInput.value = '';
+        document.getElementById('bookFile').value = '';
+        selectedFile = null;
+        selectedFileName.style.display = 'none';
+        selectedFileName.textContent = '';
         
         // Reload books
         await loadBooks();
