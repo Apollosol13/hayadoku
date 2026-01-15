@@ -1,9 +1,6 @@
 -- Supabase Database Schema for Hayadoku
 -- Run this in Supabase SQL Editor: https://supabase.com/dashboard/project/YOUR_PROJECT/sql
 
--- Enable Row Level Security
-ALTER DATABASE postgres SET "app.jwt_secret" TO 'your-jwt-secret';
-
 -- Create books table
 CREATE TABLE IF NOT EXISTS public.books (
     id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
