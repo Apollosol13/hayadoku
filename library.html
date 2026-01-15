@@ -44,14 +44,19 @@
         <!-- Upload New Book -->
         <div class="section upload-section">
             <h3>➕ Add New Book</h3>
+            <div id="dropZone" class="drop-zone">
+                <p class="drop-zone-text">📖 Drop your book here or click to browse</p>
+                <p class="drop-zone-hint">Supports .txt and .pdf files</p>
+            </div>
             <div class="upload-form">
-                <input type="text" id="bookTitle" placeholder="Book Title" class="form-input">
+                <input type="text" id="bookTitle" placeholder="Book Title (optional - will use filename)" class="form-input">
                 <input type="file" id="bookFile" accept=".txt,.pdf" style="display: none;">
                 <button onclick="document.getElementById('bookFile').click()" class="btn btn-secondary">
                     Choose File
                 </button>
                 <button id="uploadBookBtn" class="btn btn-primary">Upload Book</button>
             </div>
+            <p id="selectedFileName" class="selected-file"></p>
             <p id="uploadStatus" class="upload-status"></p>
         </div>
     </div>

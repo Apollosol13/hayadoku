@@ -1,6 +1,60 @@
 // Library page functionality
 let currentUser = null;
 
+// Drag and drop functionality
+const dropZone = document.getElementById('dropZone');
+const bookFileInput = document.getElementById('bookFile');
+const bookTitleInput = document.getElementById('bookTitle');
+const selectedFileName = document.getElementById('selectedFileName');
+
+if (dropZone) {
+    // Make drop zone clickable
+    dropZone.addEventListener('click', () => {
+        bookFileInput.click();
+    });
+
+    // Drag events
+    dropZone.addEventListener('dragover', (e) => {
+        e.preventDefault();
+        dropZone.classList.add('drag-over');
+    });
+
+    dropZone.addEventListener('dragleave', () => {
+        dropZone.classList.remove('drag-over');
+    });
+
+    dropZone.addEventListener('drop', (e) => {
+        e.preventDefault();
+        dropZone.classList.remove('drag-over');
+        
+        const files = e.dataTransfer.files;
+        if (files.length > 0) {
+            handleFileSelect(files[0]);
+        }
+    });
+}
+
+// Handle file selection
+if (bookFileInput) {
+    bookFileInput.addEventListener('change', (e) => {
+        if (e.target.files.length > 0) {
+            handleFileSelect(e.target.files[0]);
+        }
+    });
+}
+
+function handleFileSelect(file) {
+    // Show selected file
+    selectedFileName.textContent = `Selected: ${file.name}`;
+    selectedFileName.style.display = 'block';
+    
+    // Auto-fill title if empty
+    if (!bookTitleInput.value) {
+        const title = file.name.replace(/\.(txt|pdf)$/i, '');
+        bookTitleInput.value = title;
+    }
+}
+
 // Check authentication
 async function checkAuth() {
     currentUser = await getCurrentUser();
@@ -53,21 +107,20 @@ async function loadBooks() {
 
 // Upload new book
 document.getElementById('uploadBookBtn')?.addEventListener('click', async () => {
-    const title = document.getElementById('bookTitle').value.trim();
     const fileInput = document.getElementById('bookFile');
     const file = fileInput.files[0];
     const statusEl = document.getElementById('uploadStatus');
-    
-    if (!title) {
-        statusEl.textContent = 'Please enter a book title';
-        statusEl.className = 'upload-status error';
-        return;
-    }
     
     if (!file) {
         statusEl.textContent = 'Please select a file';
         statusEl.className = 'upload-status error';
         return;
+    }
+    
+    // Use filename as title if not provided
+    let title = document.getElementById('bookTitle').value.trim();
+    if (!title) {
+        title = file.name.replace(/\.(txt|pdf)$/i, '');
     }
     
     statusEl.textContent = 'Uploading...';
