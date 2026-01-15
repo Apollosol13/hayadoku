@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reading - Hayadoku ハヤドク</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="reader-header">
+            <div class="reader-header-content">
+                <a href="library.html" class="back-to-library">← Back to Library</a>
+                <h1 id="bookTitle" class="book-title-header">Loading...</h1>
+                <span id="userEmail" class="user-email-small"></span>
+            </div>
+        </header>
+
+        <!-- Reader Section -->
+        <div id="readerSection" class="section">
+            <!-- Controls -->
+            <div class="controls">
+                <div class="control-group">
+                    <label for="wpmSlider">
+                        Speed: <span id="wpmValue">250</span> WPM
+                    </label>
+                    <input type="range" id="wpmSlider" min="50" max="900" value="250" step="10">
+                    <div class="speed-markers">
+                        <span>50</span>
+                        <span>200</span>
+                        <span>450</span>
+                        <span>700</span>
+                        <span>900</span>
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <label for="focusPosition">
+                        Focal Point Position
+                    </label>
+                    <select id="focusPosition">
+                        <option value="auto">Auto (Optimal)</option>
+                        <option value="0">First Letter</option>
+                        <option value="1">Second Letter</option>
+                        <option value="2">Third Letter</option>
+                        <option value="middle">Middle</option>
+                    </select>
+                </div>
+
+                <div class="control-group">
+                    <label for="focusColor">
+                        Focal Color
+                    </label>
+                    <input type="color" id="focusColor" value="#dc2626">
+                </div>
+
+                <div class="control-group">
+                    <label for="fontSize">
+                        Font Size: <span id="fontSizeValue">48</span>px
+                    </label>
+                    <input type="range" id="fontSize" min="24" max="96" value="48" step="4">
+                </div>
+            </div>
+
+            <!-- Display Area -->
+            <div class="reader-display">
+                <div class="word-container">
+                    <div id="currentWord" class="current-word"></div>
+                </div>
+                <div class="progress-bar">
+                    <div id="progressFill" class="progress-fill"></div>
+                </div>
+                <div class="stats">
+                    <span id="wordCount">0 / 0</span>
+                    <span id="timeRemaining">0:00</span>
+                </div>
+            </div>
+
+            <!-- Playback Controls -->
+            <div class="playback-controls">
+                <button class="btn-icon" id="rewindBtn" title="Rewind 10 words">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polygon points="11 19 2 12 11 5 11 19"></polygon>
+                        <polygon points="22 19 13 12 22 5 22 19"></polygon>
+                    </svg>
+                </button>
+                <button class="btn-icon btn-play" id="playPauseBtn" title="Play/Pause">
+                    <svg id="playIcon" viewBox="0 0 24 24" fill="currentColor">
+                        <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                    </svg>
+                    <svg id="pauseIcon" class="hidden" viewBox="0 0 24 24" fill="currentColor">
+                        <rect x="6" y="4" width="4" height="16"></rect>
+                        <rect x="14" y="4" width="4" height="16"></rect>
+                    </svg>
+                </button>
+                <button class="btn-icon" id="forwardBtn" title="Forward 10 words">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polygon points="13 19 22 12 13 5 13 19"></polygon>
+                        <polygon points="2 19 11 12 2 5 2 19"></polygon>
+                    </svg>
+                </button>
+                <button class="btn-icon" id="restartBtn" title="Restart">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="1 4 1 10 7 10"></polyline>
+                        <path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"></path>
+                    </svg>
+                </button>
+            </div>
+            
+            <div class="auto-save-indicator" id="autoSaveIndicator">
+                <span class="save-icon">💾</span>
+                <span class="save-text">Progress auto-saved</span>
+            </div>
+        </div>
+    </div>
+
+    <script src="supabase-config.js"></script>
+    <script src="reader.js"></script>
+</body>
+</html>
